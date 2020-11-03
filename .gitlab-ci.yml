@@ -23,5 +23,6 @@ cmssw_compile:
     - mv ${BUILD_DIR}/EDM .
     - mv ${BUILD_DIR}/Read .
     - mv ${BUILD_DIR}/uty .
+    - ls -ltr
     - cmsenv
-    - scram b
+    - scram b -v
