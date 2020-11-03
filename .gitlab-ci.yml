@@ -1,0 +1,27 @@
+stages:
+  - build
+
+cmssw_compile:
+  stage: build
+  only:
+    - master
+  tags:
+    - cvmfs
+  variables:
+    CMSPATH: /cvmfs/cms.cern.ch
+    CMSSW_RELEASE: CMSSW_10_2_21
+  script:
+    - set -ex
+    - shopt -s expand_aliases
+    - export BUILD_DIR=${PWD}
+    - set +u && source ${CMS_PATH}/cmsset_default.sh; set -u
+    - ls -ltr
+    - cmsrel ${CMSSW_RELEASE}
+    - cd ${CMSSW_RELEASE}/src
+    - mkdir -p NtuTool
+    - mv ${BUILD_DIR}/Common .
+    - mv ${BUILD_DIR}/EDM .
+    - mv ${BUILD_DIR}/Read .
+    - mv ${BUILD_DIR}/uty .
+    - cmsenv
+    - scram b
