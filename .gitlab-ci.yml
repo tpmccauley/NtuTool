@@ -19,10 +19,10 @@ cmssw_compile:
     - cmsrel ${CMSSW_RELEASE}
     - cd ${CMSSW_RELEASE}/src
     - mkdir -p NtuTool
-    - mv ${BUILD_DIR}/Common .
-    - mv ${BUILD_DIR}/EDM .
-    - mv ${BUILD_DIR}/Read .
-    - mv ${BUILD_DIR}/uty .
+    - mv ${BUILD_DIR}/Common ${CMSSW_RELEASE}/src/NtuTool/
+    - mv ${BUILD_DIR}/EDM ${CMSSW_RELEASE}/src/NtuTool/
+    - mv ${BUILD_DIR}/Read ${CMSSW_RELEASE}/src/NtuTool/
+    - mv ${BUILD_DIR}/uty ${CMSSW_RELEASE}/src/NtuTool/
     - ls -ltr
     - cmsenv
     - scram b -v
