@@ -8,7 +8,7 @@ cmssw_compile:
   tags:
     - cvmfs
   variables:
-    CMSPATH: /cvmfs/cms.cern.ch
+    CMS_PATH: /cvmfs/cms.cern.ch
     CMSSW_RELEASE: CMSSW_10_2_21
   script:
     - set -ex
