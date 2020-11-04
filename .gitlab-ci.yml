@@ -1,5 +1,6 @@
 stages:
   - build
+  - test
 
 cmssw_compile:
   stage: build
@@ -12,3 +13,34 @@ cmssw_compile:
     CMSSW_RELEASE: CMSSW_10_2_21
   script:
      - /bin/bash ./.gitlab/build.sh
+     - mkdir run
+  artifacts:
+    untracked: true
+    expire_in: 20 minutes
+    paths:
+      - ${CMSSW_RELEASE}
+
+run_tests:
+  stage: test
+  only:
+    - master
+  tags:
+    - cvmfs
+  image:
+    name: gitlab-registry.cern.ch/clange/cmssw-docker/cc7-cms:latest
+    entrypoint: [""]
+  variables:
+    CMS_PATH: /cvmfs/cms.cern.ch
+    CMSSW_RELEASE: CMSSW_10_2_21
+  script:
+    - shopt -s expand_aliases
+    - set +u && source ${CMS_PATH}/cmsset_default.sh; set -u
+    - mkdir run
+    - cp -r ${CMSSW_RELEASE} run/
+    - chmod -R +w run/${CMSSW_RELEASE}/
+    - cd run/${CMSSW_RELEASE}/src
+    - cmsenv
+    - cd NtuTool/EDM/test
+    - cmsRun treew.py
+    - cmsRun sntuw.py
+    - cmsRun sedmw.py
